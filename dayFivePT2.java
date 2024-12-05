@@ -3,8 +3,9 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Collections;
 
-class DayFive {
+public class dayFivePT2 {
     public static void main(String[] args) throws FileNotFoundException {
         File file = new File("src/dayFive.txt");
         Scanner input = new Scanner(file);
@@ -46,10 +47,29 @@ class DayFive {
                     }
                 }
             }
-            if (isGood) {
+            if (!isGood) {
+                reorderUpdate(pages, rulePairs);
                 sum += pages.get(pages.size() / 2);
             }
         }
         System.out.println(sum);
+    }
+
+    private static void reorderUpdate(List<Integer> pages, List<int[]> rulePairs) {
+        for (int i = 0; i < pages.size(); i++) {
+            for (int j = i + 1; j < pages.size(); j++) {
+                for (int[] pair : rulePairs) {
+                    int pageA = pair[0];
+                    int pageB = pair[1];
+                    if (pages.contains(pageA) && pages.contains(pageB)) {
+                        if (pages.indexOf(pageA) > pages.indexOf(pageB)) {
+                            int idxA = pages.indexOf(pageA);
+                            int idxB = pages.indexOf(pageB);
+                            Collections.swap(pages, idxA, idxB);
+                        }
+                    }
+                }
+            }
+        }
     }
 }
